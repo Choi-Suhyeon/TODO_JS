@@ -7,7 +7,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/sha256.js"></script>
     </head>
     <body style="margin: 5% 20%">
-        <form onsubmit="return reflectElement(this);">
+        <form onsubmit="return applyNewElement(this);">
             <div class="mb-3">
                 <label for="todo-elem" class="form-label">TODO</label>
                 <input id="todo-elem" type="text" class="form-control">
@@ -16,7 +16,8 @@
                 <label for="dead-line" class="col-form-label">DEAD-LINE</label>
                 <input id="dead-line" type="date" class="form-control">
             </div>
-            <input type="submit" value="REFLECT" class="btn btn-primary">
+            <input type="submit" value="APPLY" class="btn btn-primary">
+            <button onclick="deleteElemDone();" class="btn btn-warning">DELETE Task Done</button>
         </form>
         <table id="todos" class="table" style="margin-top: 5%">
             <thead>

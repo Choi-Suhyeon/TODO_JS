@@ -8,23 +8,22 @@ Date.prototype.toStrFormat = function () {
           day      = this.dayStr[this.getDay()];
 
     return `${this.getFullYear()}-${month}-${date} (${day})`;
-}
+};
 Date.prototype.isSameDate  = function (date) {
     return true
         && this.getFullYear() === date.getFullYear()
         && this.getMonth() === date.getMonth()
         && this.getDate() === date.getDate();
-}
+};
 
-const saveToSessionStorage = function (obj) {
+const saveToSessionStorage = obj => {
     sessionStorage.setItem('todo-data', JSON.stringify(obj));
-}
+};
 
-const loadFromSessionStorage = function () {
-    return JSON.parse(sessionStorage.getItem('todo-data')) ?? [];
-}
+const loadFromSessionStorage = 
+    () => JSON.parse(sessionStorage.getItem('todo-data')) ?? [];
 
-const reflectElement = function (form) {
+const applyNewElement = form => {
     const task     = form[0].value,
           deadLine = (new Date(form[1].value || null)).getTime();
 
@@ -44,7 +43,7 @@ const reflectElement = function (form) {
     return false;
 };
 
-const checkDone = function (elem) {
+const checkDone = elem => {
     const hash = elem.id.split('-')[1],
           idx  = todoArr.findIndex((e) => e.hash === hash);
 
@@ -54,12 +53,12 @@ const checkDone = function (elem) {
     saveToSessionStorage(todoArr);
 };
 
-const sortTable = function () {
-    todoArr = todoArr.sort((a, b) => {
-        return a.done && !b.done ? 1  :
-               !a.done && b.done ? -1 :
-               a.deadLine - b.deadLine;
-    });
+const sortTable = () => {
+    todoArr.sort((a, b) =>
+        a.done && !b.done ? 1  :
+        !a.done && b.done ? -1 :
+        a.deadLineNum - b.deadLineNum
+    );
 
     const tbody = document.getElementById('todos').getElementsByTagName('tbody')[0];
 
@@ -83,6 +82,13 @@ const sortTable = function () {
             row.className = "table-danger";
         }
     });
+};
+
+const deleteElemDone = () => {
+    todoArr = todoArr.filter(elem => !elem.done);
+
+    sortTable();
+    saveToSessionStorage();
 };
 
 todoArr = loadFromSessionStorage();
